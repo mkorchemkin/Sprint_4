@@ -1,9 +1,7 @@
 package ru.yandex.praktikum.pageObject;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
@@ -15,8 +13,8 @@ import static ru.yandex.praktikum.pageObject.constants.HomePageConstants.*;
 
 @RunWith(Parameterized.class)
 public class HomePageTest {
-    private WebDriver driver;
-    private final String site = "https://qa-scooter.praktikum-services.ru/";
+    private static WebDriver driver;
+    private static final String BASE_URL = "https://qa-scooter.praktikum-services.ru/"; // вынесено в константу
     private final By question;
     private final By answer;
     private final By labelResult;
@@ -32,28 +30,33 @@ public class HomePageTest {
     @Parameterized.Parameters
     public static Object[][] getParameters() {
         return new Object[][]{
-                {QUESTION_0, ANSWER_0, ITEM_ANSWER_0, TEXT_ANSWER_0},
-                {QUESTION_1, ANSWER_1, ITEM_ANSWER_1, TEXT_ANSWER_1},
-                {QUESTION_2, ANSWER_2, ITEM_ANSWER_2, TEXT_ANSWER_2},
-                {QUESTION_3, ANSWER_3, ITEM_ANSWER_3, TEXT_ANSWER_3},
-                {QUESTION_4, ANSWER_4, ITEM_ANSWER_4, TEXT_ANSWER_4},
-                {QUESTION_5, ANSWER_5, ITEM_ANSWER_5, TEXT_ANSWER_5},
-                {QUESTION_6, ANSWER_6, ITEM_ANSWER_6, TEXT_ANSWER_6},
-                {QUESTION_7, ANSWER_7, ITEM_ANSWER_7, TEXT_ANSWER_7},
+                {COST_QUESTION, COST_ANSWER, COST_ITEM_ANSWER, COST_TEXT},
+                {MULTIPLE_ORDERS_QUESTION, MULTIPLE_ORDERS_ANSWER, MULTIPLE_ORDERS_ITEM_ANSWER, MULTIPLE_ORDERS_TEXT},
+                {RENT_PERIOD_QUESTION, RENT_PERIOD_ANSWER, RENT_PERIOD_ITEM_ANSWER, RENT_PERIOD_TEXT},
+                {DELIVERY_DAY_QUESTION, DELIVERY_DAY_ANSWER, DELIVERY_DAY_ITEM_ANSWER, DELIVERY_DAY_TEXT},
+                {SUPPORT_CONTACT_QUESTION, SUPPORT_CONTACT_ANSWER, SUPPORT_CONTACT_ITEM_ANSWER, SUPPORT_CONTACT_TEXT},
+                {BATTERY_QUESTION, BATTERY_ANSWER, BATTERY_ITEM_ANSWER, BATTERY_TEXT},
+                {CANCEL_ORDER_QUESTION, CANCEL_ORDER_ANSWER, CANCEL_ORDER_ITEM_ANSWER, CANCEL_ORDER_TEXT},
+                {DELIVERY_REGION_QUESTION, DELIVERY_REGION_ANSWER, DELIVERY_REGION_ITEM_ANSWER, DELIVERY_REGION_TEXT},
         };
     }
 
-    @Before
-    public void startUp() {
+    @BeforeClass
+    public static void setUpClass() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get(site);
     }
 
-    @After
-    public void teardown() {
+    @AfterClass
+    public static void tearDownClass() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 
-        driver.quit();
+    @Before
+    public void openHomePage() {
+        driver.get(BASE_URL); // теперь используем константу
     }
 
     @Test
@@ -68,3 +71,4 @@ public class HomePageTest {
         assertEquals(expected, result);
     }
 }
+

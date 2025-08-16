@@ -4,33 +4,44 @@ import org.openqa.selenium.By;
 
 public class HomePageConstants {
 
-    // Определяем заголовки вопросов
-    public static final By QUESTION_DELIVERY = By.id("accordion__heading-delivery");
-    public static final By QUESTION_RENTAL = By.id("accordion__heading-rental");
-    public static final By QUESTION_PAYMENT = By.id("accordion__heading-payment");
-    public static final By QUESTION_CANCELLATION = By.id("accordion__heading-cancellation");
-    public static final By QUESTION_CHARGING = By.id("accordion__heading-charging");
-    public static final By QUESTION_RETURN = By.id("accordion__heading-return");
-    public static final By QUESTION_SUPPORT = By.id("accordion__heading-support");
-    public static final By QUESTION_AVAILABILITY = By.id("accordion__heading-availability");
+    // Вопросы
+    public static final By COST_QUESTION = By.id("accordion__heading-0");
+    public static final By MULTIPLE_ORDERS_QUESTION = By.id("accordion__heading-1");
+    public static final By RENT_PERIOD_QUESTION = By.id("accordion__heading-2");
+    public static final By DELIVERY_DAY_QUESTION = By.id("accordion__heading-3");
+    public static final By SUPPORT_CONTACT_QUESTION = By.id("accordion__heading-4");
+    public static final By BATTERY_QUESTION = By.id("accordion__heading-5");
+    public static final By CANCEL_ORDER_QUESTION = By.id("accordion__heading-6");
+    public static final By DELIVERY_REGION_QUESTION = By.id("accordion__heading-7");
 
-    // Определяем элементы ответов
-    public static final By ANSWER_DELIVERY = By.id("accordion__panel-delivery");
-    public static final By ANSWER_RENTAL = By.id("accordion__panel-rental");
-    public static final By ANSWER_PAYMENT = By.id("accordion__panel-payment");
-    public static final By ANSWER_CANCELLATION = By.id("accordion__panel-cancellation");
-    public static final By ANSWER_CHARGING = By.id("accordion__panel-charging");
-    public static final By ANSWER_RETURN = By.id("accordion__panel-return");
-    public static final By ANSWER_SUPPORT = By.id("accordion__panel-support");
-    public static final By ANSWER_AVAILABILITY = By.id("accordion__panel-availability");
+    // Ответы
+    public static final By COST_ANSWER = By.id("accordion__panel-0");
+    public static final By MULTIPLE_ORDERS_ANSWER = By.id("accordion__panel-1");
+    public static final By RENT_PERIOD_ANSWER = By.id("accordion__panel-2");
+    public static final By DELIVERY_DAY_ANSWER = By.id("accordion__panel-3");
+    public static final By SUPPORT_CONTACT_ANSWER = By.id("accordion__panel-4");
+    public static final By BATTERY_ANSWER = By.id("accordion__panel-5");
+    public static final By CANCEL_ORDER_ANSWER = By.id("accordion__panel-6");
+    public static final By DELIVERY_REGION_ANSWER = By.id("accordion__panel-7");
 
-    // Определяем текст ответов
-    public static final String TEXT_ANSWER_DELIVERY = "Сутки — 400 рублей. Оплата курьеру — наличными или картой.";
-    public static final String TEXT_ANSWER_RENTAL = "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.";
-    public static final String TEXT_ANSWER_PAYMENT = "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.";
-    public static final String TEXT_ANSWER_CANCELLATION = "Только начиная с завтрашнего дня. Но скоро станем расторопнее.";
-    public static final String TEXT_ANSWER_CHARGING = "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.";
-    public static final String TEXT_ANSWER_RETURN = "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.";
-    public static final String TEXT_ANSWER_SUPPORT = "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.";
-    public static final String TEXT_ANSWER_AVAILABILITY = "Да, обязательно. Всем самокатов! И Москве, и Московской области.";
+    // XPath для панелей (при необходимости)
+    public static final By COST_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-0']");
+    public static final By MULTIPLE_ORDERS_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-1']");
+    public static final By RENT_PERIOD_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-2']");
+    public static final By DELIVERY_DAY_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-3']");
+    public static final By SUPPORT_CONTACT_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-4']");
+    public static final By BATTERY_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-5']");
+    public static final By CANCEL_ORDER_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-6']");
+    public static final By DELIVERY_REGION_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-7']");
+
+    // Тексты ответов
+    public static final String COST_TEXT = "Сутки — 400 рублей. Оплата курьеру — наличными или картой.";
+    public static final String MULTIPLE_ORDERS_TEXT = "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.";
+    public static final String RENT_PERIOD_TEXT = "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.";
+    public static final String DELIVERY_DAY_TEXT = "Только начиная с завтрашнего дня. Но скоро станем расторопнее.";
+    public static final String SUPPORT_CONTACT_TEXT = "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.";
+    public static final String BATTERY_TEXT = "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.";
+    public static final String CANCEL_ORDER_TEXT = "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.";
+    public static final String DELIVERY_REGION_TEXT = "Да, обязательно. Всем самокатов! И Москве, и Московской области.";
 }
+

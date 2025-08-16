@@ -31,11 +31,9 @@ public class OrderCreateTest {
     private final Enum colour;
     private final String comment;
     private final String expectedHeader = "Заказ оформлен";
-    private final Enum button;
 
-    public OrderCreateTest(Enum button, String name, String surname, String address, int stateMetroNumber, String telephoneNumber,
+    public OrderCreateTest(String name, String surname, String address, int stateMetroNumber, String telephoneNumber,
                            String date, String duration, Enum colour, String comment) {
-        this.button = button;
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -50,12 +48,9 @@ public class OrderCreateTest {
     @Parameterized.Parameters
     public static Object[][] getParameters() {
         return new Object[][]{
-                {UP_BUTTON, "Иван", "Иванов", "ул Тестовая 1", 123, "79999999999", "24.06.2024", SIX_DAYS, GREY, "Заранее позвоните"},
-                {UP_BUTTON, "Петр", "Петров", "ул Тестовая 2", 7, "79000000000", "25.06.2024", FIVE_DAYS, BLACK, "Заранее позвоните"},
-                {UP_BUTTON, "Анна", "Рябова", "ул Тестовая 3", 10, "79555555555", "26.06.2024", ONE_DAY, BLACK, "Заранее позвоните"},
-                {DOWN_BUTTON, "Иван", "Иванов", "ул Тестовая 1", 123, "79999999999", "27.06.2024", SIX_DAYS, GREY, "Заранее позвоните"},
-                {DOWN_BUTTON, "Петр", "Петров", "ул Тестовая 2", 7, "79000000000", "29.06.2024", FIVE_DAYS, BLACK, "Заранее позвоните"},
-                {DOWN_BUTTON, "Анна", "Рябова", "ул Тестовая 3", 10, "79555555555", "30.06.2024", ONE_DAY, BLACK, "Заранее позвоните"},
+                {"Иван", "Иванов", "ул Тестовая 1", 123, "79999999999", "24.06.2024", SIX_DAYS, GREY, "Заранее позвоните"},
+                {"Петр", "Петров", "ул Тестовая 2", 7, "79000000000", "25.06.2024", FIVE_DAYS, BLACK, "Заранее позвоните"},
+                {"Анна", "Рябова", "ул Тестовая 3", 10, "79555555555", "26.06.2024", ONE_DAY, BLACK, "Заранее позвоните"},
         };
     }
 
@@ -68,15 +63,32 @@ public class OrderCreateTest {
 
     @After
     public void teardown() {
-
         driver.quit();
     }
 
+    // 🔹 Отдельный тест: проверка перехода по обеим кнопкам
     @Test
-    public void testCreateOrderWithUpButton() {
+    public void testOpenOrderFormFromUpAndDownButtons() {
+        HomePage homePage = new HomePage(driver);
+        homePage.waitForLoadHomePage();
+
+        // Проверяем верхнюю кнопку
+        homePage.clickCreateOrderButton(UP_BUTTON);
+        assertTrue(new AboutRenter(driver).isOrderFormOpened());
+
+        driver.get(site);
+
+        // Проверяем нижнюю кнопку
+        homePage.waitForLoadHomePage().clickCreateOrderButton(DOWN_BUTTON);
+        assertTrue(new AboutRenter(driver).isOrderFormOpened());
+    }
+
+    // 🔹 Параметризованный тест: заполнение и оформление заказа
+    @Test
+    public void testCreateOrder() {
         new HomePage(driver)
                 .waitForLoadHomePage()
-                .clickCreateOrderButton(button);
+                .clickCreateOrderButton(UP_BUTTON); // всегда одна кнопка, этого достаточно
 
         new AboutRenter(driver)
                 .waitForLoadOrderPage()
@@ -96,8 +108,9 @@ public class OrderCreateTest {
                 .clickButtonCreateOrder();
 
         PopUpWindow popUpWindow = new PopUpWindow(driver);
-                popUpWindow.clickButtonYes();
+        popUpWindow.clickButtonYes();
 
         assertTrue(popUpWindow.getHeaderAfterCreateOrder().contains(expectedHeader));
     }
 }
+
