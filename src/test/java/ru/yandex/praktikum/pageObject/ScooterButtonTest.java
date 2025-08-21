@@ -13,14 +13,16 @@ import java.time.Duration;
 import static org.junit.Assert.assertEquals;
 
 public class ScooterButtonTest {
-    WebDriver driver;
-    private final String site = "https://qa-scooter.praktikum-services.ru/";
+    private WebDriver driver;
+
+    // Константа для URL
+    private static final String SITE_URL = "https://qa-scooter.praktikum-services.ru/";
 
     @Before
     public void startUp() {
         WebDriverManager.firefoxdriver().setup();
         driver = new FirefoxDriver();
-        driver.get(site);
+        driver.get(SITE_URL);
     }
 
     @After
@@ -41,7 +43,7 @@ public class ScooterButtonTest {
 
         new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        assertEquals("https://qa-scooter.praktikum-services.ru/", driver.getCurrentUrl());
+        assertEquals(SITE_URL, driver.getCurrentUrl());
     }
 
     @Test
@@ -66,7 +68,7 @@ public class ScooterButtonTest {
 
         new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        assertEquals("https://qa-scooter.praktikum-services.ru/", driver.getCurrentUrl());
+        assertEquals(SITE_URL, driver.getCurrentUrl());
     }
 
     @Test
@@ -84,7 +86,7 @@ public class ScooterButtonTest {
 
         new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        assertEquals("https://qa-scooter.praktikum-services.ru/", driver.getCurrentUrl());
+        assertEquals(SITE_URL, driver.getCurrentUrl());
     }
-
 }
+

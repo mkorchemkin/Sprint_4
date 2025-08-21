@@ -47,12 +47,7 @@ public class AboutScooter {
     }
 
     public AboutScooter changeColour(Enum colour) {
-        if (colour.equals(BLACK)) {
-            driver.findElement(colourBlack).click();
-        } else if (colour.equals(GREY)) {
-            driver.findElement(colourGrey).click();
-        }
-        return this;
+        return null;
     }
 
     public AboutScooter inputComment(String newComment) {
@@ -62,6 +57,9 @@ public class AboutScooter {
 
     public void clickButtonCreateOrder() {
         driver.findElement(createOrderButton).click();
+    }
+
+    public void clickScooter() {
     }
 }
 

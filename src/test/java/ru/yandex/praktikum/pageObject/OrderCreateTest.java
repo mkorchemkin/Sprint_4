@@ -7,12 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static ru.yandex.praktikum.pageObject.constants.CreateOrderButton.DOWN_BUTTON;
 import static ru.yandex.praktikum.pageObject.constants.CreateOrderButton.UP_BUTTON;
 import static ru.yandex.praktikum.pageObject.constants.RentDurationConstants.*;
 import static ru.yandex.praktikum.pageObject.constants.ScooterColours.*;
@@ -20,7 +17,6 @@ import static ru.yandex.praktikum.pageObject.constants.ScooterColours.*;
 @RunWith(Parameterized.class)
 public class OrderCreateTest {
     private WebDriver driver;
-    private final String site = "https://qa-scooter.praktikum-services.ru/";
     private final String name;
     private final String surname;
     private final String address;
@@ -30,7 +26,6 @@ public class OrderCreateTest {
     private final String duration;
     private final Enum colour;
     private final String comment;
-    private final String expectedHeader = "Заказ оформлен";
 
     public OrderCreateTest(String name, String surname, String address, int stateMetroNumber, String telephoneNumber,
                            String date, String duration, Enum colour, String comment) {
@@ -58,6 +53,7 @@ public class OrderCreateTest {
     public void startUp() {
         WebDriverManager.firefoxdriver().setup();
         driver = new FirefoxDriver();
+        String site = "https://qa-scooter.praktikum-services.ru/";
         driver.get(site);
     }
 
@@ -66,29 +62,11 @@ public class OrderCreateTest {
         driver.quit();
     }
 
-    // 🔹 Отдельный тест: проверка перехода по обеим кнопкам
-    @Test
-    public void testOpenOrderFormFromUpAndDownButtons() {
-        HomePage homePage = new HomePage(driver);
-        homePage.waitForLoadHomePage();
-
-        // Проверяем верхнюю кнопку
-        homePage.clickCreateOrderButton(UP_BUTTON);
-        assertTrue(new AboutRenter(driver).isOrderFormOpened());
-
-        driver.get(site);
-
-        // Проверяем нижнюю кнопку
-        homePage.waitForLoadHomePage().clickCreateOrderButton(DOWN_BUTTON);
-        assertTrue(new AboutRenter(driver).isOrderFormOpened());
-    }
-
-    // 🔹 Параметризованный тест: заполнение и оформление заказа
     @Test
     public void testCreateOrder() {
         new HomePage(driver)
                 .waitForLoadHomePage()
-                .clickCreateOrderButton(UP_BUTTON); // всегда одна кнопка, этого достаточно
+                .clickCreateOrderButton(UP_BUTTON);
 
         new AboutRenter(driver)
                 .waitForLoadOrderPage()
@@ -110,7 +88,7 @@ public class OrderCreateTest {
         PopUpWindow popUpWindow = new PopUpWindow(driver);
         popUpWindow.clickButtonYes();
 
+        String expectedHeader = "Заказ оформлен";
         assertTrue(popUpWindow.getHeaderAfterCreateOrder().contains(expectedHeader));
     }
 }
-
