@@ -80,9 +80,8 @@ public class AboutScooterPage {
     }
 
     // выбор самоката
-    public AboutScooterPage clickScooter() {
+    public void clickScooter() {
         driver.findElement(scooterOption).click();
-        return this;
     }
 
     // проверка, что самокат выбран

@@ -9,12 +9,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class OrderStatusTest {
     WebDriver driver;
-    private final String site = "https://qa-scooter.praktikum-services.ru/";
-    private final String numberOrder = "45106";
+
     @Before
     public void startUp() {
         WebDriverManager.firefoxdriver().setup();
         driver = new FirefoxDriver();
+        String site = "https://qa-scooter.praktikum-services.ru/";
         driver.get(site);
     }
 
@@ -26,6 +26,7 @@ public class OrderStatusTest {
 
     @Test
     public void orderStatusWithoutNumber() {
+        String numberOrder = "45106";
         new HomePage(driver)
                 .waitForLoadHomePage()
                 .clickOrderState()
