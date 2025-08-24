@@ -7,31 +7,31 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-//Страница https://qa-scooter.praktikum-services.ru/order Статус заваза
+// Страница "Статус заказа"
 public class OrderStatus {
-    WebDriver driver;
+    private final WebDriver driver;
+
     private final By yandexButton = By.xpath(".//*[@alt='Yandex']");
     private final By scooterButton = By.xpath(".//*[@alt='Scooter']");
     private final By notFound = By.xpath(".//*[@alt='Not found']");
 
     public OrderStatus(WebDriver driver) {
-
         this.driver = driver;
     }
 
-    public OrderStatus waitLoadOrderStatusPade() {
+    // Метод ожидания загрузки страницы
+    public OrderStatus waitLoadOrderStatusPage() {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.presenceOfElementLocated(notFound));
         return this;
     }
 
     public void clickYandex() {
-
         driver.findElement(yandexButton).click();
     }
 
     public void clickScooter() {
-
         driver.findElement(scooterButton).click();
     }
 }
+

@@ -46,7 +46,7 @@ public class OrderCreateButtonsTest {
         homePage.waitForLoadHomePage()
                 .clickCreateOrderButton(button);
 
-        assertTrue(new AboutRenter(driver).isOrderFormOpened());
+        assertTrue(new AboutRenterPage(driver).isOrderFormOpened());
     }
 }
 

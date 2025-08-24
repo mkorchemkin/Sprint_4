@@ -8,10 +8,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-// Страница https://qa-scooter.praktikum-services.ru/order Для кого самокат и описание локаторов для каждого поля и кнопки с последующим заполнением тестовыми данными
+// PageObject для страницы https://qa-scooter.praktikum-services.ru/order
+// "Для кого самокат" — поля формы и кнопки
 
-public class AboutRenter {
-    WebDriver driver;
+public class AboutRenterPage {
+    private final WebDriver driver;
+
     private final By orderHeader = By.className("Order_Header__BZXOb");
     private final By name = By.xpath(".//input[@placeholder='* Имя']");
     private final By surname = By.xpath(".//input[@placeholder='* Фамилия']");
@@ -21,61 +23,62 @@ public class AboutRenter {
     private final By buttonNext = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
     private final By scooterButton = By.xpath(".//*[@alt='Scooter']");
 
-    public AboutRenter(WebDriver driver) {
-
+    public AboutRenterPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    //метод ожидания загруки страницы заказа
-    public AboutRenter waitForLoadOrderPage() {
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(driver -> (driver.findElement(orderHeader).getText() != null
-                && !driver.findElement(orderHeader).getText().isEmpty()
-        ));
+    // Метод ожидания загрузки страницы заказа
+    public AboutRenterPage waitForLoadOrderPage() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(driver -> (driver.findElement(orderHeader).getText() != null
+                        && !driver.findElement(orderHeader).getText().isEmpty()));
         return this;
     }
 
-    public AboutRenter inputName(String newName) {
+    public AboutRenterPage inputName(String newName) {
         driver.findElement(name).sendKeys(newName);
         return this;
     }
 
-    public AboutRenter inputSurname(String newSurname) {
+    public AboutRenterPage inputSurname(String newSurname) {
         driver.findElement(surname).sendKeys(newSurname);
         return this;
     }
 
-    public AboutRenter inputAddress(String newAddress) {
+    public AboutRenterPage inputAddress(String newAddress) {
         driver.findElement(address).sendKeys(newAddress);
         return this;
     }
 
-    public AboutRenter changeStateMetro(int stateNumber) {
+    public AboutRenterPage changeStateMetro(int stateNumber) {
         driver.findElement(stateMetro).click();
         String nameStateMetro = ".//button[@value='%s']";
         By newStateMetro = By.xpath(String.format(nameStateMetro, stateNumber));
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(newStateMetro));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(newStateMetro));
         driver.findElement(newStateMetro).click();
         return this;
     }
 
-    public AboutRenter inputTelephone(String newTelephone) {
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(telephone));
+    public AboutRenterPage inputTelephone(String newTelephone) {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(telephone));
         driver.findElement(telephone).sendKeys(newTelephone);
         return this;
     }
 
     public void clickNextButton() {
-
         driver.findElement(buttonNext).click();
     }
 
     public void clickScooter() {
-
         driver.findElement(scooterButton).click();
     }
 
+    // Проверка, что форма заказа действительно открыта
     public boolean isOrderFormOpened() {
-        return false;
+        return new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfElementLocated(orderHeader))
+                .isDisplayed();
     }
-
 }
+

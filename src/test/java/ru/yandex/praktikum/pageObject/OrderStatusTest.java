@@ -32,6 +32,6 @@ public class OrderStatusTest {
                 .inputOrderNumber(numberOrder)
                 .clickGo();
         new OrderStatus(driver)
-                .waitLoadOrderStatusPade();
+                .waitLoadOrderStatusPage();
     }
 }

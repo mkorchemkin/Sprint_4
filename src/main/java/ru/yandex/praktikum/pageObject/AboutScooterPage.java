@@ -4,13 +4,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.yandex.praktikum.pageObject.constants.ScooterColours;
 
 import java.time.Duration;
 
-import static ru.yandex.praktikum.pageObject.constants.ScooterColours.*;
+public class AboutScooterPage {
+    private final WebDriver driver;
 
-public class AboutScooter {
-    WebDriver driver;
+    // URL страницы заказа
+    private static final String PAGE_URL = "https://qa-scooter.praktikum-services.ru/order";
 
     // локаторы формы заказа
     private final By rentHeader = By.className("Order_Header__BZXOb");
@@ -20,24 +22,31 @@ public class AboutScooter {
     private final By colourGrey = By.id("grey");
     private final By comment = By.xpath(".//input[@placeholder='Комментарий для курьера']");
     private final By createOrderButton = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
+    private final By scooterOption = By.id("black"); // пример: по умолчанию кликнем на черный самокат
 
-    public AboutScooter(WebDriver driver) {
+    public AboutScooterPage(WebDriver driver) {
         this.driver = driver;
     }
 
+    // открытие страницы напрямую
+    public AboutScooterPage open() {
+        driver.get(PAGE_URL);
+        return this;
+    }
+
     // метод ожидания загрузки страницы
-    public AboutScooter waitAboutRentHeader() {
+    public AboutScooterPage waitAboutRentHeader() {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(d -> d.findElement(rentHeader).isDisplayed());
         return this;
     }
 
-    public AboutScooter inputDate(String newDate) {
+    public AboutScooterPage inputDate(String newDate) {
         driver.findElement(date).sendKeys(newDate);
         return this;
     }
 
-    public AboutScooter inputDuration(String newDuration) {
+    public AboutScooterPage inputDuration(String newDuration) {
         driver.findElement(durationRent).click();
         new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions
@@ -46,11 +55,22 @@ public class AboutScooter {
         return this;
     }
 
-    public AboutScooter changeColour(Enum colour) {
-        return null;
+    // исправленный метод
+    public AboutScooterPage changeColour(ScooterColours colour) {
+        switch (colour) {
+            case BLACK:
+                driver.findElement(colourBlack).click();
+                break;
+            case GREY:
+                driver.findElement(colourGrey).click();
+                break;
+            default:
+                throw new IllegalArgumentException("Неизвестный цвет самоката: " + colour);
+        }
+        return this;
     }
 
-    public AboutScooter inputComment(String newComment) {
+    public AboutScooterPage inputComment(String newComment) {
         driver.findElement(comment).sendKeys(newComment);
         return this;
     }
@@ -59,8 +79,18 @@ public class AboutScooter {
         driver.findElement(createOrderButton).click();
     }
 
-    public void clickScooter() {
+    // выбор самоката
+    public AboutScooterPage clickScooter() {
+        driver.findElement(scooterOption).click();
+        return this;
+    }
+
+    // проверка, что самокат выбран
+    public boolean isScooterSelected() {
+        return driver.findElement(scooterOption).isSelected();
     }
 }
+
+
 
 

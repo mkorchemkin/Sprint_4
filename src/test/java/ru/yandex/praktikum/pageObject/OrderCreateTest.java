@@ -7,7 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import ru.yandex.praktikum.pageObject.constants.ScooterColours;
 
 import static org.junit.Assert.assertTrue;
 import static ru.yandex.praktikum.pageObject.constants.CreateOrderButton.UP_BUTTON;
@@ -24,11 +26,12 @@ public class OrderCreateTest {
     private final String telephoneNumber;
     private final String date;
     private final String duration;
-    private final Enum colour;
+    private final ScooterColours colour;
     private final String comment;
 
-    public OrderCreateTest(String name, String surname, String address, int stateMetroNumber, String telephoneNumber,
-                           String date, String duration, Enum colour, String comment) {
+    public OrderCreateTest(String name, String surname, String address, int stateMetroNumber,
+                           String telephoneNumber, String date, String duration,
+                           ScooterColours colour, String comment) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -43,23 +46,37 @@ public class OrderCreateTest {
     @Parameterized.Parameters
     public static Object[][] getParameters() {
         return new Object[][]{
-                {"Иван", "Иванов", "ул Тестовая 1", 123, "79999999999", "24.06.2024", SIX_DAYS, GREY, "Заранее позвоните"},
-                {"Петр", "Петров", "ул Тестовая 2", 7, "79000000000", "25.06.2024", FIVE_DAYS, BLACK, "Заранее позвоните"},
-                {"Анна", "Рябова", "ул Тестовая 3", 10, "79555555555", "26.06.2024", ONE_DAY, BLACK, "Заранее позвоните"},
+                {"Иван", "Иванов", "ул Тестовая 1", 123, "79999999999", "24.06.2025", SIX_DAYS, GREY, "Заранее позвоните"},
+                {"Петр", "Петров", "ул Тестовая 2", 7, "79000000000", "25.06.2025", FIVE_DAYS, BLACK, "Заранее позвоните"},
+                {"Анна", "Рябова", "ул Тестовая 3", 10, "79555555555", "26.06.2025", ONE_DAY, BLACK, "Заранее позвоните"},
         };
     }
 
     @Before
     public void startUp() {
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver();
-        String site = "https://qa-scooter.praktikum-services.ru/";
-        driver.get(site);
+        String browser = System.getProperty("BROWSER", "chrome").toLowerCase(); // дефолт Chrome
+
+        switch (browser) {
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+                break;
+            case "chrome":
+            default:
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
+                break;
+        }
+
+        driver.manage().window().maximize();
+        driver.get("https://qa-scooter.praktikum-services.ru/");
     }
 
     @After
     public void teardown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test
@@ -68,7 +85,7 @@ public class OrderCreateTest {
                 .waitForLoadHomePage()
                 .clickCreateOrderButton(UP_BUTTON);
 
-        new AboutRenter(driver)
+        new AboutRenterPage(driver)
                 .waitForLoadOrderPage()
                 .inputName(name)
                 .inputSurname(surname)
@@ -77,7 +94,7 @@ public class OrderCreateTest {
                 .inputTelephone(telephoneNumber)
                 .clickNextButton();
 
-        new AboutScooter(driver)
+        new AboutScooterPage(driver)
                 .waitAboutRentHeader()
                 .inputDate(date)
                 .inputDuration(duration)
@@ -92,3 +109,5 @@ public class OrderCreateTest {
         assertTrue(popUpWindow.getHeaderAfterCreateOrder().contains(expectedHeader));
     }
 }
+
+

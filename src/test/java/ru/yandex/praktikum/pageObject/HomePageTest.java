@@ -14,7 +14,8 @@ import static ru.yandex.praktikum.pageObject.constants.HomePageConstants.*;
 @RunWith(Parameterized.class)
 public class HomePageTest {
     private static WebDriver driver;
-    private static final String BASE_URL = "https://qa-scooter.praktikum-services.ru/"; // вынесено в константу
+    private static final String BASE_URL = "https://qa-scooter.praktikum-services.ru/";
+
     private final By question;
     private final By answer;
     private final By labelResult;
@@ -45,6 +46,7 @@ public class HomePageTest {
     public static void setUpClass() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        driver.manage().window().maximize();
     }
 
     @AfterClass
@@ -56,19 +58,23 @@ public class HomePageTest {
 
     @Before
     public void openHomePage() {
-        driver.get(BASE_URL); // теперь используем константу
+        driver.get(BASE_URL);
     }
 
     @Test
     public void checkQuestions() {
-        new HomePage(driver)
-                .waitForLoadHomePage()
+        HomePage homePage = new HomePage(driver);
+
+        // Ожидание загрузки главной страницы
+        homePage.waitForLoadHomePage()
                 .scrollToQuestions()
                 .clickQuestion(question)
                 .waitLoadAfterClickQuestion(labelResult);
-        String result = driver.findElement(answer).getText();
 
+        // Получение текста ответа
+        String result = homePage.getAnswerText(answer);
+
+        // Сравнение с ожидаемым текстом
         assertEquals(expected, result);
     }
 }
-

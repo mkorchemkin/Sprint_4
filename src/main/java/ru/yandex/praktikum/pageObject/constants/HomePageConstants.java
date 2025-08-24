@@ -2,9 +2,10 @@ package ru.yandex.praktikum.pageObject.constants;
 
 import org.openqa.selenium.By;
 
+// Константы для главной страницы
 public class HomePageConstants {
 
-    // Вопросы
+    // Локаторы вопросов
     public static final By COST_QUESTION = By.id("accordion__heading-0");
     public static final By MULTIPLE_ORDERS_QUESTION = By.id("accordion__heading-1");
     public static final By RENT_PERIOD_QUESTION = By.id("accordion__heading-2");
@@ -14,7 +15,7 @@ public class HomePageConstants {
     public static final By CANCEL_ORDER_QUESTION = By.id("accordion__heading-6");
     public static final By DELIVERY_REGION_QUESTION = By.id("accordion__heading-7");
 
-    // Ответы
+    // Локаторы ответов
     public static final By COST_ANSWER = By.id("accordion__panel-0");
     public static final By MULTIPLE_ORDERS_ANSWER = By.id("accordion__panel-1");
     public static final By RENT_PERIOD_ANSWER = By.id("accordion__panel-2");
@@ -24,7 +25,7 @@ public class HomePageConstants {
     public static final By CANCEL_ORDER_ANSWER = By.id("accordion__panel-6");
     public static final By DELIVERY_REGION_ANSWER = By.id("accordion__panel-7");
 
-    // XPath для панелей (при необходимости)
+    // Локаторы панелей (item)
     public static final By COST_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-0']");
     public static final By MULTIPLE_ORDERS_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-1']");
     public static final By RENT_PERIOD_ITEM_ANSWER = By.xpath(".//*[@data-accordion-component='AccordionItemPanel' and @aria-labelledby='accordion__heading-2']");
@@ -44,4 +45,5 @@ public class HomePageConstants {
     public static final String CANCEL_ORDER_TEXT = "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.";
     public static final String DELIVERY_REGION_TEXT = "Да, обязательно. Всем самокатов! И Москве, и Московской области.";
 }
+
 

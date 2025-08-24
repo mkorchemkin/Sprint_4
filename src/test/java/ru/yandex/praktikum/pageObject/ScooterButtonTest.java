@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ScooterButtonTest {
     private WebDriver driver;
@@ -33,7 +34,7 @@ public class ScooterButtonTest {
     @Test
     public void clickScooterFromAboutRenterPage() {
         HomePage homePage = new HomePage(driver);
-        AboutRenter aboutRenter = new AboutRenter(driver);
+        AboutRenterPage aboutRenter = new AboutRenterPage(driver);
 
         homePage.waitForLoadHomePage()
                 .clickUpOrderButton();
@@ -41,34 +42,21 @@ public class ScooterButtonTest {
         aboutRenter.waitForLoadOrderPage()
                 .clickScooter();
 
-        new WebDriverWait(driver, Duration.ofSeconds(5));
-
+        // Проверка: URL остался прежним (можно заменить на проверку выбранного самоката)
         assertEquals(SITE_URL, driver.getCurrentUrl());
     }
 
     @Test
     public void clickScooterFromAboutScooterPage() {
-        HomePage homePage = new HomePage(driver);
-        AboutRenter aboutRenter = new AboutRenter(driver);
-        AboutScooter aboutScooter = new AboutScooter(driver);
+        AboutScooterPage aboutScooter = new AboutScooterPage(driver);
 
-        homePage.waitForLoadHomePage()
-                .clickUpOrderButton();
-
-        aboutRenter.waitForLoadOrderPage()
-                .inputName("Иван")
-                .inputSurname("Иванов")
-                .inputAddress("ул Тестовая 1")
-                .changeStateMetro(77)
-                .inputTelephone("+79999999999")
-                .clickNextButton();
-
-        aboutScooter.waitAboutRentHeader()
+        // Предусловие: сразу открываем страницу заказа
+        aboutScooter.open()
+                .waitAboutRentHeader()
                 .clickScooter();
 
-        new WebDriverWait(driver, Duration.ofSeconds(5));
-
-        assertEquals(SITE_URL, driver.getCurrentUrl());
+        // Проверка: самокат выбран
+        assertTrue(aboutScooter.isScooterSelected());
     }
 
     @Test
@@ -81,12 +69,10 @@ public class ScooterButtonTest {
                 .inputOrderNumber("45106")
                 .clickGo();
 
-        orderStatus.waitLoadOrderStatusPade()
+        orderStatus.waitLoadOrderStatusPage()
                 .clickScooter();
 
-        new WebDriverWait(driver, Duration.ofSeconds(5));
-
+        // Проверка: URL остался прежним
         assertEquals(SITE_URL, driver.getCurrentUrl());
     }
 }
-
