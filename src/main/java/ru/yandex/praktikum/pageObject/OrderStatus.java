@@ -1,0 +1,32 @@
+package ru.yandex.praktikum.pageObject;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+// Страница "Статус заказа"
+public class OrderStatus {
+    private final WebDriver driver;
+
+    private final By scooterButton = By.xpath(".//*[@alt='Scooter']");
+    private final By notFound = By.xpath(".//*[@alt='Not found']");
+
+    public OrderStatus(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    // Метод ожидания загрузки страницы
+    public OrderStatus waitLoadOrderStatusPage() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(notFound));
+        return this;
+    }
+
+    public void clickScooter() {
+        driver.findElement(scooterButton).click();
+    }
+}
+
